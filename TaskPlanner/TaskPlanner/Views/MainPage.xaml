@@ -1,0 +1,54 @@
+<Page x:Class="TaskPlanner.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Template10.Controls"
+      xmlns:userControls="using:TaskPlanner.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:TaskPlanner.Views"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:vm="using:TaskPlanner.ViewModels" mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:MainPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <!-- Page header. -->
+        <controls:PageHeader x:Uid="MainPageHeader">
+            <controls:PageHeader.SecondaryCommands>
+                <AppBarButton x:Uid="SettingsAppBarButton" Click="{x:Bind ViewModel.GotoSettings}"/>
+                <AppBarButton x:Uid="PrivacyAppBarButton" Click="{x:Bind ViewModel.GotoPrivacy}"/>
+                <AppBarButton x:Uid="AboutAppBarButton" Click="{x:Bind ViewModel.GotoAbout}"/>
+            </controls:PageHeader.SecondaryCommands>
+        </controls:PageHeader>
+
+        <!-- Page content. -->
+        <ScrollViewer Grid.Row="1" VerticalAlignment="Top" Padding="12,8,0,0" Margin="0,0,-12,0" VerticalScrollBarVisibility="Auto">
+            <TextBlock Margin="0,12,24,12" LineHeight="24" TextWrapping="Wrap"  Style="{StaticResource BodyTextBlockStyle}">
+                <Bold>Welcome</Bold>
+                <LineBreak /><LineBreak />                
+                This application was created as part of the &lt;redacted&gt; process.
+                <LineBreak /><LineBreak />
+                Many functionality ideas have been left out due to time constraints; functionality such as:
+                <LineBreak />   - Ability to create more than one list.
+                <LineBreak />   - Show all lists on the main page with a badge indicating the pending tasks remaining.
+                <LineBreak />   - Implement semantic zoom on the main page to allow for quickly navigation to a specific list by name.
+                <LineBreak />   - Create secondary tiles on the OS for the favorite user lists.
+                <LineBreak />   - Allow setting list items as "Important".
+                <LineBreak />   - And many more.
+                <LineBreak /><LineBreak />
+                I'm still happy and proud of the job I have done on such a short period and hope you will too.
+                <LineBreak /><LineBreak />
+                To get started, just select the To-do list option on the right side menu.
+                <LineBreak /><LineBreak />
+                <Bold>Nahuel Ianni</Bold>
+            </TextBlock>
+        </ScrollViewer>
+    </Grid>
+</Page>
+
