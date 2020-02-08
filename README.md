@@ -27,6 +27,8 @@ Make sure the target platform for each project is set to `x86` and the project b
 5. SystemIntegration
 6. TaskPlanner
 
+The `BackgroundTasks` project output type (found on the project properties) needs to be configured to `Windows Runtime Component`, otherwise the background tasks can't be registered and the application will throw an exception when loading.
+
 
 ## Notes
 ### Compatibility
