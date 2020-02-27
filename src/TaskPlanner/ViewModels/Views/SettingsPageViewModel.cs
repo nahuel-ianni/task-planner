@@ -39,15 +39,9 @@ namespace TaskPlanner.ViewModels
             set { Set(ref _BusyText, value); }
         }
 
-        public void ShowBusy()
-        {
-            Views.Shell.SetBusy(true, _BusyText);
-        }
+        public void ShowBusy() => Views.Shell.SetBusy(true, _BusyText);
 
-        public void HideBusy()
-        {
-            Views.Shell.SetBusy(false);
-        }
+        public void HideBusy() => Views.Shell.SetBusy(false);
     }
 
     public class AboutPartViewModel : ViewModelBase

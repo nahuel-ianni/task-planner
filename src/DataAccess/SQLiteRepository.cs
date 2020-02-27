@@ -1,5 +1,6 @@
 ﻿using DataAccess.Interfaces;
 using SQLite.Net;
+using SQLite.Net.Platform.WinRT;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,10 +22,7 @@ namespace DataAccess
         /// <summary>
         /// Initializes a new instance of the <see cref="SQLiteRepository"/> class.
         /// </summary>
-        public SQLiteRepository()
-        {
-            this.InitializeComponent();
-        }
+        public SQLiteRepository() => this.InitializeComponent();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SQLiteRepository"/> class.
@@ -40,29 +38,17 @@ namespace DataAccess
         public void Create<T>() where T : IEntity
         {
             if (this.sqliteConnection.TableMappings.FirstOrDefault(table => table.MappedType.FullName == typeof(T).Name) == null)
-            {
                 this.sqliteConnection.CreateTable<T>();
-            }
         }
 
         /// <inheritdoc />
-        public void Insert<T>(T entity) where T : IEntity
-        {
-            this.sqliteConnection.Insert(entity);
-        }
+        public void Insert<T>(T entity) where T : IEntity => this.sqliteConnection.Insert(entity);
 
         /// <inheritdoc />
-        public void Update<T>(T entity) where T : IEntity
-        {
-            if (entity.Id == 0)
-            {
-                this.sqliteConnection.Insert(entity);
-            }
-            else
-            {
-                this.sqliteConnection.Update(entity);
-            }
-        }
+        public void Update<T>(T entity) where T : IEntity => 
+            _ = entity.Id == 0 
+                ? this.sqliteConnection.Insert(entity) 
+                : this.sqliteConnection.Update(entity);
 
         /// <inheritdoc />
         public void Update<T>(IEnumerable<T> entities) where T : IEntity
@@ -72,37 +58,20 @@ namespace DataAccess
         }
 
         /// <inheritdoc />
-        public void Remove<T>(int id) where T : IEntity
-        {
-            this.sqliteConnection.Delete<T>(id);
-        }
+        public void Remove<T>(int id) where T : IEntity => this.sqliteConnection.Delete<T>(id);
 
         /// <inheritdoc />
         public IEnumerable<T> GetItems<T>() where T : class, IEntity
         {
-            var items = new List<T>();
-
-            if (this.sqliteConnection.TableMappings.FirstOrDefault(table => table.MappedType.FullName == typeof(T).Name) == null)
-            {
-                items = this.sqliteConnection.Table<T>().ToList();
-            }
-
-            return items;
+            return this.sqliteConnection.TableMappings.FirstOrDefault(table => table.MappedType.FullName == typeof(T).Name) == null
+                ? this.sqliteConnection.Table<T>().ToList()
+                : new List<T>();
         }
 
         /// <inheritdoc />
-        public void CommitChanges()
-        {
-            if (this.sqliteConnection != null)
-            {
-                this.sqliteConnection.Commit();
-            }
-        }
+        public void CommitChanges() => this.sqliteConnection?.Commit();
 
-        private void InitializeComponent()
-        {
-            this.sqliteConnection = new SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), this.connectionPath);
-        }
+        private void InitializeComponent() => this.sqliteConnection = new SQLiteConnection(new SQLitePlatformWinRT(), this.connectionPath);
 
         #region IDisposable
         public void Dispose()
@@ -111,10 +80,7 @@ namespace DataAccess
             GC.SuppressFinalize(this);
         }
 
-        ~SQLiteRepository()
-        {
-            this.Dispose(false);
-        }
+        ~SQLiteRepository() => this.Dispose(false);
 
         protected virtual void Dispose(bool disposing)
         {
@@ -122,7 +88,6 @@ namespace DataAccess
                 return;
 
             if (disposing)
-            {
                 try
                 {
                     this.sqliteConnection.Close();
@@ -133,7 +98,6 @@ namespace DataAccess
                     this.sqliteConnection = null;
                     System.Diagnostics.Debug.Write("An exception ocurred when disposing the sqlite connection: " + ex.Message);
                 }
-            }
 
             this.hasBeenDisposed = true;
         }

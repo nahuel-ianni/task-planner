@@ -20,17 +20,13 @@ namespace TaskPlanner.Converters
             var visibility = Visibility.Collapsed;
 
             if (value == null)
-            {
                 return visibility;
-            }
 
             bool boolObject;
             var conversionSuccessful = Boolean.TryParse(value.ToString(), out boolObject);
 
             if (conversionSuccessful)
-            {
                 visibility = boolObject ? Visibility.Visible : Visibility.Collapsed;
-            }
 
             return visibility;
         }
@@ -43,17 +39,13 @@ namespace TaskPlanner.Converters
             var visibility = false;
 
             if (value == null)
-            {
                 return visibility;
-            }
 
             Visibility visibilityObject;
             var conversionSuccessful = Visibility.TryParse(value.ToString(), out visibilityObject);
 
             if (conversionSuccessful)
-            {
                 visibility = visibilityObject == Visibility.Visible ? true : false;
-            }
 
             return visibility;
         }

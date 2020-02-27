@@ -15,17 +15,14 @@ namespace TaskPlanner.Converters
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>Visibility value.</returns>
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            return value != null ? Visibility.Visible : Visibility.Collapsed;
-        }
+        public object Convert(object value, Type targetType, object parameter, string language) =>
+            value != null 
+                ? Visibility.Visible 
+                : Visibility.Collapsed;
 
         /// <summary>
         /// Converts the value back.
         /// </summary>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return null;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, string language) => null;
     }
 }

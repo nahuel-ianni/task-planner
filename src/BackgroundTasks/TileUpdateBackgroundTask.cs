@@ -49,9 +49,7 @@ namespace BackgroundTasks
                 var items = dataAccess.GetItems<TaskItem>();
 
                 if (items != null)
-                {
                     tileContentItems.AddRange(items.Where(item => !item.Completed));
-                }
             }
             catch (Exception ex)
             {
@@ -63,9 +61,7 @@ namespace BackgroundTasks
 
         private TaskItem GetTileContent(IEnumerable<TaskItem> items)
         {
-            var taskItem = items.OrderBy(item => item.DueDate).FirstOrDefault(item => !item.Completed);
-
-            return taskItem;
+            return items.OrderBy(item => item.DueDate).FirstOrDefault(item => !item.Completed);
         }
 
         private XmlDocument GetTileTemplates(string title, string content)

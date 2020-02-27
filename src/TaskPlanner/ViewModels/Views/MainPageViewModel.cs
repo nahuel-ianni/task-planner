@@ -12,9 +12,7 @@ namespace TaskPlanner.ViewModels
         public MainPageViewModel()
         {
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-            {
                 Value = "Designtime value";
-            }
         }
 
         string _Value = string.Empty;
@@ -27,21 +25,22 @@ namespace TaskPlanner.ViewModels
                 Value = state[nameof(Value)]?.ToString();
                 state.Clear();
             }
+
             return Task.CompletedTask;
         }
 
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
             if (suspending)
-            {
                 state[nameof(Value)] = Value;
-            }
+
             return Task.CompletedTask;
         }
 
         public override Task OnNavigatingFromAsync(NavigatingEventArgs args)
         {
             args.Cancel = false;
+
             return Task.CompletedTask;
         }
 

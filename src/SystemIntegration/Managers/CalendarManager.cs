@@ -17,9 +17,7 @@ namespace SystemIntegration.Managers
         /// <returns>Id of the created appointment.</returns>
         public static async Task<string> EditNewAppointmentAsync(Appointment appointment)
         {
-            var operationResult = await AppointmentManager.ShowEditNewAppointmentAsync(appointment);
-
-            return operationResult;
+            return await AppointmentManager.ShowEditNewAppointmentAsync(appointment);
         }
 
         /// <summary>

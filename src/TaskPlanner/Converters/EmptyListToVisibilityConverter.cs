@@ -36,17 +36,13 @@ namespace TaskPlanner.Converters
             var visibility = Visibility.Collapsed;
 
             if (value == null)
-            {
                 return visibility;
-            }
 
             VisibilityCondition visibilityCondition;
             var conversionSuccessful = Enum.TryParse(parameter.ToString(), out visibilityCondition);
             var collection = value as IEnumerable<object>;
 
-            if (conversionSuccessful &&
-                collection != null)
-            {
+            if (conversionSuccessful && collection != null)
                 switch (visibilityCondition)
                 {
                     case VisibilityCondition.ShowWhenEmpty:
@@ -57,7 +53,6 @@ namespace TaskPlanner.Converters
                         visibility = collection.Any() ? Visibility.Visible : Visibility.Collapsed;
                         break;
                 }
-            }
 
             return visibility;
         }
@@ -65,9 +60,6 @@ namespace TaskPlanner.Converters
         /// <summary>
         /// Converts the value back.
         /// </summary>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return Visibility.Collapsed;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, string language) => Visibility.Collapsed;
     }
 }

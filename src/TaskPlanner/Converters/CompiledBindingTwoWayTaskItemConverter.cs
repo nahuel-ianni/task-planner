@@ -18,17 +18,11 @@ namespace TaskPlanner.Converters
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>An observable collection of task items.</returns>
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            return value as ITaskItem;
-        }
+        public object Convert(object value, Type targetType, object parameter, string language) => value as ITaskItem;
 
         /// <summary>
         /// Converts the value back.
         /// </summary>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, string language) => value;
     }
 }

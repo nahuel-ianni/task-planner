@@ -69,25 +69,22 @@ namespace TaskPlanner
                 /// The OS has denied permission of background task execution either
                 /// because of available resources or because the user has refused such 
                 /// functionality.
-                case BackgroundAccessStatus.Denied:
+                //case BackgroundAccessStatus.Denied:
                 case BackgroundAccessStatus.DeniedBySystemPolicy:
                 case BackgroundAccessStatus.DeniedByUser:
                 case BackgroundAccessStatus.Unspecified:
                     return;
 
                 /// The OS has allowed the application to register and use backgroun tasks.
-                case BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity:
-                case BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity:
+                //case BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity:
+                //case BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity:
                 case BackgroundAccessStatus.AllowedSubjectToSystemPolicy:
                 case BackgroundAccessStatus.AlwaysAllowed:
                     foreach (var item in this.backgroundTasks)
-                    {
                         /// Ensure the task registration is performed only once.
                         if (BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(task => task.Name == item.Name) == null)
-                        {
                             this.RegisterTask(item, new TimeTrigger(App.TimeTriggerFreshnessTime, false));
-                        }
-                    }
+
                     break;
             }
         }
@@ -113,9 +110,7 @@ namespace TaskPlanner
             /// If specified, after the event trigger is fired, the OS will wait for
             /// the condition situation to happen before executing the task.
             if (systemConditionType != SystemConditionType.Invalid)
-            {
                 builder.AddCondition(new SystemCondition(systemConditionType));
-            }
 
             /// Register the task and returns the registration output.
             return builder.Register();

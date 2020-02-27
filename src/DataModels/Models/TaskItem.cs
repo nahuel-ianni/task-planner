@@ -77,9 +77,6 @@ namespace DataModels
         }
 
         /// <inheritdoc />
-        public ITaskItem CloneItem()
-        {
-            return this.MemberwiseClone() as ITaskItem;
-        }
+        public ITaskItem CloneItem() => this.MemberwiseClone() as ITaskItem;        
     }
 }

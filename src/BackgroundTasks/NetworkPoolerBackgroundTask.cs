@@ -43,9 +43,7 @@ namespace BackgroundTasks
 
                 // Get the cancellation token 
                 if (this.cancellationTokenSource == null)
-                {
                     this.cancellationTokenSource = new CancellationTokenSource();
-                }
 
                 CancellationToken token = cancellationTokenSource.Token;
 
@@ -87,11 +85,11 @@ namespace BackgroundTasks
 
         private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
-            if (this.cancellationTokenSource != null)
-            {
-                this.cancellationTokenSource.Cancel();
-                this.cancellationTokenSource = null;
-            }
+            if (this.cancellationTokenSource == null)
+                return;
+
+            this.cancellationTokenSource.Cancel();
+            this.cancellationTokenSource = null;
         }
     }
 }

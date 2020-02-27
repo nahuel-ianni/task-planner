@@ -24,43 +24,22 @@ namespace TaskPlanner.ViewModels
         /// <inheritdoc />
         public TodoListControlViewModel CompletedTodoListControlViewModel
         {
-            get
-            {
-                return this.completedTodoListControlViewModel;
-            }
-
-            set
-            {
-                this.Set(ref this.completedTodoListControlViewModel, value);
-            }
+            get { return this.completedTodoListControlViewModel; }
+            set { this.Set(ref this.completedTodoListControlViewModel, value); }
         }
 
         /// <inheritdoc />
         public TodoListControlViewModel PendingTodoListControlViewModel
         {
-            get
-            {
-                return this.pendingTodoListControlViewModel;
-            }
-
-            set
-            {
-                this.Set(ref this.pendingTodoListControlViewModel, value);
-            }
+            get { return this.pendingTodoListControlViewModel; }
+            set { this.Set(ref this.pendingTodoListControlViewModel, value); }
         }
 
         /// <inheritdoc />
         public ITaskItem SelectedTaskItem
         {
-            get
-            {
-                return this.selectedTaskItem;
-            }
-
-            set
-            {
-                this.Set(ref this.selectedTaskItem, value);
-            }
+            get { return this.selectedTaskItem; }
+            set { this.Set(ref this.selectedTaskItem, value); }
         }
 
         /// <summary>
@@ -95,15 +74,11 @@ namespace TaskPlanner.ViewModels
         public void DeleteSelectedItem()
         {
             if (this.SelectedTaskItem == null)
-            {
                 return;
-            }
 
             // The task item should be on the database.
             if (this.SelectedTaskItem.Id != 0)
-            {
                 this.dataAccess.Remove<TaskItem>(this.SelectedTaskItem.Id);
-            }
 
             this.RemoveTaskFromCollection(this.PendingTodoListControlViewModel.Tasks, this.SelectedTaskItem);
             this.RemoveTaskFromCollection(this.CompletedTodoListControlViewModel.Tasks, this.SelectedTaskItem);
@@ -123,10 +98,8 @@ namespace TaskPlanner.ViewModels
         {
             var items = this.PendingTodoListControlViewModel?.Tasks?.Where(taskItem => !taskItem.Completed);
 
-            foreach(var item in items)
-            {
+            foreach (var item in items)
                 await this.SynchronizeTaskWithCalendar(item);
-            }
         }
 
         private void InitializeTodoLists()
@@ -146,26 +119,20 @@ namespace TaskPlanner.ViewModels
         private void RemoveTaskFromCollection(IList<ITaskItem> items, ITaskItem item)
         {
             if (items.FirstOrDefault(taskItem => taskItem == this.SelectedTaskItem) != null)
-            {
                 items.Remove(this.SelectedTaskItem);
-            }
         }
 
         private void SubscribeToTaskItemPropertyChanged(ITaskItem taskItem)
         {
             var castedTaskItem = taskItem as TaskItem;
             if (castedTaskItem != null)
-            {
                 castedTaskItem.PropertyChanged += TaskItem_PropertyChanged;
-            }
         }
 
         private void FillTaskCollection(IEnumerable<ITaskItem> taskItems)
         {
             foreach (var item in taskItems)
-            {
                 this.SubscribeToTaskItemPropertyChanged(item);
-            }
 
             this.PendingTodoListControlViewModel.UpdateTasks(taskItems.Where(taskItem => !taskItem.Completed).OrderBy(taskItem => taskItem.OrderPosition));
             this.CompletedTodoListControlViewModel.UpdateTasks(taskItems.Where(taskItem => taskItem.Completed).OrderBy(taskItem => taskItem.OrderPosition));
@@ -174,9 +141,7 @@ namespace TaskPlanner.ViewModels
         private async Task<string> SynchronizeTaskWithCalendar(ITaskItem taskItem)
         {
             if (taskItem == null)
-            {
                 return string.Empty;
-            }
 
             var appointment = CalendarManager.GetAppointment(taskItem.Title, taskItem.DueDate.Date);
             appointment.Details = taskItem.Notes;

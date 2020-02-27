@@ -30,9 +30,7 @@ namespace TaskPlanner.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value == null || parameter == null)
-            {
                 return value;
-            }
 
             ListFilter listFilter;
             var collection = value as IEnumerable<ITaskItem>;
@@ -40,7 +38,6 @@ namespace TaskPlanner.Converters
             IEnumerable<ITaskItem> taskItems = null;
 
             if (conversionSuccessful && collection != null)
-            {
                 switch (listFilter)
                 {
                     case ListFilter.PendingTasks:
@@ -51,7 +48,6 @@ namespace TaskPlanner.Converters
                         taskItems = collection.Where(taskItem => taskItem.Completed);
                         break;
                 }
-            }
 
             return taskItems;
         }
@@ -59,9 +55,6 @@ namespace TaskPlanner.Converters
         /// <summary>
         /// Converts the value back.
         /// </summary>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return value;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, string language) => value;
     }
 }

@@ -21,43 +21,22 @@ namespace TaskPlanner.ViewModels
         /// <inheritdoc />
         public ObservableCollection<ITaskItem> Tasks
         {
-            get
-            {
-                return this.tasks;
-            }
-
-            set
-            {
-                this.Set(ref this.tasks, value);
-            }
+            get { return this.tasks; }
+            set { this.Set(ref this.tasks, value); }
         }
 
         /// <inheritdoc />
         public ITaskItem TaskItem
         {
-            get
-            {
-                return this.taskItem;
-            }
-
-            set
-            {
-                this.Set(ref this.taskItem, value);
-            }
+            get { return this.taskItem; }
+            set { this.Set(ref this.taskItem, value); }
         }
 
         /// <inheritdoc />
         public ITaskItem SelectedTaskItem
         {
-            get
-            {
-                return this.selectedTaskItem;
-            }
-
-            set
-            {
-                this.Set(ref this.selectedTaskItem, value);
-            }
+            get { return this.selectedTaskItem; }
+            set { this.Set(ref this.selectedTaskItem, value); }
         }
 
         /// <inheritdoc />
@@ -66,62 +45,42 @@ namespace TaskPlanner.ViewModels
         /// <inheritdoc />
         public string NewTaskName
         {
-            get
-            {
-                return this.newTaskName;
-            }
-
-            set
-            {
-                this.Set(ref this.newTaskName, value);
-            }
+            get { return this.newTaskName; }
+            set { this.Set(ref this.newTaskName, value); }
         }
 
         /// <inheritdoc />
         public bool ShowTasks
         {
-            get
-            {
-                return this.showTasks;
-            }
-
-            set
-            {
-                this.Set(ref this.showTasks, value);
-            }
+            get { return this.showTasks; }
+            set { this.Set(ref this.showTasks, value); }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TodoListControlViewModel"/> class.
         /// Used for referencing the VM directly from a xaml view.
         /// </summary>
-        public TodoListControlViewModel()
-        {
-            this.InitializeComponent(null);
-        }
+        public TodoListControlViewModel() => this.InitializeComponent(null);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TodoListControlViewModel" /> class.
         /// </summary>
         /// <param name="taskItems">The task items.</param>
-        public TodoListControlViewModel(IEnumerable<ITaskItem> taskItems)
-        {
-            this.InitializeComponent(taskItems);
-        }
+        public TodoListControlViewModel(IEnumerable<ITaskItem> taskItems) => this.InitializeComponent(taskItems);
 
         /// <inheritdoc />
         public void AddNewTask()
         {
-            if (!string.IsNullOrEmpty(this.NewTaskName))
-            {
-                var item = this.CreateTaskItem();
-                item.Title = this.NewTaskName;
-                this.NewTaskName = string.Empty;
+            if (string.IsNullOrEmpty(this.NewTaskName))
+                return;
 
-                this.Tasks.Add(item);
+            var item = this.CreateTaskItem();
+            item.Title = this.NewTaskName;
+            this.NewTaskName = string.Empty;
 
-                this.RaisePropertyChanged(() => this.Tasks);
-            }
+            this.Tasks.Add(item);
+
+            this.RaisePropertyChanged(() => this.Tasks);
         }
 
         /// <inheritdoc />
@@ -134,16 +93,10 @@ namespace TaskPlanner.ViewModels
         }
 
         /// <inheritdoc />
-        public void ShowDetails()
-        {
-            this.ShowDetailsCalled?.Invoke(this, this.SelectedTaskItem);
-        }
+        public void ShowDetails() => this.ShowDetailsCalled?.Invoke(this, this.SelectedTaskItem);
 
         /// <inheritdoc />
-        public void HideDetails()
-        {
-            this.ShowDetailsCalled?.Invoke(this, null);
-        }
+        public void HideDetails() => this.ShowDetailsCalled?.Invoke(this, null);
 
         private void InitializeComponent(IEnumerable<ITaskItem> taskItems)
         {
@@ -168,18 +121,14 @@ namespace TaskPlanner.ViewModels
 
         private void ViewModelTasks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
-            {
-                var viewModelTasks = sender as ObservableCollection<ITaskItem>;
+            if (e.Action != System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                return;
 
-                if (viewModelTasks != null)
-                {
-                    foreach (var item in viewModelTasks)
-                    {
-                        item.OrderPosition = viewModelTasks.IndexOf(item);
-                    }
-                }
-            }
+            var viewModelTasks = sender as ObservableCollection<ITaskItem>;
+
+            if (viewModelTasks != null)
+                foreach (var item in viewModelTasks)
+                    item.OrderPosition = viewModelTasks.IndexOf(item);
         }
     }
 }
