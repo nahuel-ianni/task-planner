@@ -7,7 +7,7 @@ The application has some extra functionality added on top of the original premis
 
 - It enables copying a *to-do* task into the Windows calendar app
 - When the application is pinned to the *Start* menu, a background task will try to update it every 15 minutes with the relevant information of the next task on the calendar
-- An extra background task was added, responsible for synchronizing tasks arriving from outside sources
+- An extra background task was added, responsible for synchronizing tasks arriving from external sources
 
 
 ## Installation and configuration
